@@ -1,9 +1,9 @@
 #master
 resource "google_container_cluster" "primary" {
   name      = "nexus-gke-cluster"
-  localtion = var.zone
+  location  = var.zone
 
-  remove_defaukt_node_pool  = true
+  remove_default_node_pool  = true
   initial_node_count        = 1
 }
 
