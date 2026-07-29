@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nexus-deployment
+  labels:
+    app: nexus
 spec:
   replicas: 1
   selector:
@@ -11,23 +13,26 @@ spec:
     metadata:
       labels:
         app: nexus
-  spec:
-    containers:
-      - name: nexus
-        image: customimage:v1
-        ports:
-          - containerPort: 8081
-        volumeMounts:
-          - name: nexus-data
-            mountPath: /nexus-data
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
-    volumes:
-      - name: nexus-data
-        persistentVolumeClaim:
-          claimName: nexus-pvc
+    spec:
+      securityContext:
+        runAsUser: 200
+        fsGroup: 200
+      containers:
+        - name: nexus
+          image: asia-southeast1-docker.pkg.dev/test-cloud-mile/nexus-repo/nexus3-gcs:v1
+          ports:
+            - containerPort: 8081
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "1500Mi"
+              cpu: "800m"
+          volumeMounts:
+            - name: nexus-data
+              mountPath: /nexus-data
+      volumes:
+        - name: nexus-data
+          persistentVolumeClaim:
+            claimName: nexus-pvc
