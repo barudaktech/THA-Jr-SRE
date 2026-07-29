@@ -7,11 +7,11 @@ variable "project_id" {
 variable "region" {
   description = "Region infra"
   type        = string
-  default     = "us-east1"
+  default     = "us-central1"
 }
 
 variable "zone" {
   description = "Zone infra"
   type        = string
-  default     = "us-east1-a"
+  default     = "us-central1-a"
 }
